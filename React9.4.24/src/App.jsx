@@ -110,7 +110,7 @@ function App() {
       }).slice(0, 8);
       setTodayForecast(hourlyForecast);
 
-      const dailyForecast = data.list.filter((item, index) => index % 8 === 0).slice(0, 5);
+      const dailyForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(0, 5);
       setDailyWeather(dailyForecast);
     } catch (error) {
       console.error("Error fetching forecast", error);
@@ -152,63 +152,63 @@ function App() {
     }
   };
 
-  // const switchTemperatureUnit = () => {
-  //   const newUnit = temperatureUnit === 'metric' ? 'imperial' : 'metric';
-  //   setTemperatureUnit(newUnit);
-  //   if (currentWeather && currentWeather.coord) {
-  //     obtainWeatherByCoordinates(currentWeather.coord.lat, currentWeather.coord.lon, newUnit);
-  //     obtainForecastByCoordinates(currentWeather.coord.lat, currentWeather.coord.lon, newUnit);
-  //   }
-  // };
+  const switchTemperatureUnit = () => {
+    const newUnit = temperatureUnit === 'metric' ? 'imperial' : 'metric';
+    setTemperatureUnit(newUnit);
+    if (currentWeather && currentWeather.coord) {
+      obtainWeatherByCoordinates(currentWeather.coord.lat, currentWeather.coord.lon, newUnit);
+      obtainForecastByCoordinates(currentWeather.coord.lat, currentWeather.coord.lon, newUnit);
+    }
+  };
 
-  // return (
-  //   <div className="weather-app">
-  //     <h1>Weather Tracker</h1>
-  //     <div className="search-bar">
-  //       <input
-  //         type="text"
-  //         value={locationName}
-  //         onChange={(e) => setLocationName(e.target.value)}
-  //         placeholder="Search by city"
-  //       />
-  //       <button onClick={handleLocationSearch}>Search Weather</button>
-  //     </div>
-  //     <button onClick={switchTemperatureUnit}>Switch Units</button>
-  //     {currentWeather && (
-  //       <div className="current-weather">
-  //         <p><strong>Location:</strong> {currentWeather.name}</p>
-  //         <p><strong>Temperature:</strong> {currentWeather.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
-  //         <p><strong>Conditions:</strong> {currentWeather.weather[0].description}</p>
-  //         <p><strong>Wind:</strong> {currentWeather.wind.speed} {temperatureUnit === 'metric' ? 'm/s' : 'mph'}</p>
-  //         <p><strong>Humidity:</strong> {currentWeather.main.humidity}%</p>
-  //         <p><strong>Sunrise:</strong> {new Date(currentWeather.sys.sunrise * 1000).toLocaleTimeString()}</p>
-  //         <p><strong>Sunset:</strong> {new Date(currentWeather.sys.sunset * 1000).toLocaleTimeString()}</p>
-  //         <h2>Today's Hourly Forecast</h2>
-  //         <div className="forecast">
-  //           {todayForecast.map((item, index) => (
-  //             <div key={index} className="forecast-entry">
-  //               <p><strong>Time:</strong> {new Date(item.dt * 1000).toLocaleTimeString()}</p>
-  //               <p><strong>Temp:</strong> {item.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
-  //               <p><strong>Weather:</strong> {item.weather[0].description}</p>
-  //               <img src={`http://openweathermap.org/img/wn/${item.weather[0].icon}.png`} alt="Weather icon" />
-  //             </div>
-  //           ))}
-  //         </div>
-  //         <h2>5-Day Weather Forecast</h2>
-  //         <div className="forecast-list">
-  //           {dailyWeather.map((forecast, index) => (
-  //             <div key={index} className="forecast-entry">
-  //               <p><strong>Date:</strong> {new Date(forecast.dt * 1000).toLocaleDateString()}</p>
-  //               <p><strong>Temp:</strong> {forecast.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
-  //               <p><strong>Weather:</strong> {forecast.weather[0].description}</p>
-  //               <img src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`} alt="Weather icon" />
-  //             </div>
-  //           ))}
-  //         </div>
-  //       </div>
-  //     )}
-  //   </div>
-  // );
+  return (
+    <div className="weather-app">
+      <h1>Weather Tracker</h1>
+      <div className="search-bar">
+        <input
+          type="text"
+          value={locationName}
+          onChange={(e) => setLocationName(e.target.value)}
+          placeholder="Search by city"
+        />
+        <button onClick={handleLocationSearch}>Search Weather</button>
+      </div>
+      <button onClick={switchTemperatureUnit}>Switch Units</button>
+      {currentWeather && (
+        <div className="current-weather">
+          <p><strong>Location:</strong> {currentWeather.name}</p>
+          <p><strong>Temperature:</strong> {currentWeather.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
+          <p><strong>Conditions:</strong> {currentWeather.weather[0].description}</p>
+          <p><strong>Wind:</strong> {currentWeather.wind.speed} {temperatureUnit === 'metric' ? 'm/s' : 'mph'}</p>
+          <p><strong>Humidity:</strong> {currentWeather.main.humidity}%</p>
+          <p><strong>Sunrise:</strong> {new Date(currentWeather.sys.sunrise * 1000).toLocaleTimeString()}</p>
+          <p><strong>Sunset:</strong> {new Date(currentWeather.sys.sunset * 1000).toLocaleTimeString()}</p>
+          <h2>Today's Hourly Forecast</h2>
+          <div className="forecast">
+            {todayForecast.map((item, index) => (
+              <div key={index} className="forecast-entry">
+                <p><strong>Time:</strong> {new Date(item.dt * 1000).toLocaleTimeString()}</p>
+                <p><strong>Temp:</strong> {item.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
+                <p><strong>Weather:</strong> {item.weather[0].description}</p>
+                <img src={`http://openweathermap.org/img/wn/${item.weather[0].icon}.png`} alt="Weather icon" />
+              </div>
+            ))}
+          </div>
+          <h2>5-Day Weather Forecast</h2>
+          <div className="forecast-list">
+            {dailyWeather.map((forecast, index) => (
+              <div key={index} className="forecast-entry">
+                <p><strong>Date:</strong> {new Date(forecast.dt * 1000).toLocaleDateString()}</p>
+                <p><strong>Temp:</strong> {forecast.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
+                <p><strong>Weather:</strong> {forecast.weather[0].description}</p>
+                <img src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`} alt="Weather icon" />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App; 
