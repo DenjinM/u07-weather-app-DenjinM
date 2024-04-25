@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'clouds': "url('/public/sunset.jpg')",
+        'clouds': "url('/public/clouds.jpg')",
       }
     },
   },

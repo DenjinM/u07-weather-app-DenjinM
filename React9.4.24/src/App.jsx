@@ -110,7 +110,7 @@ function App() {
       }).slice(0, 8);
       setTodayForecast(hourlyForecast);
 
-      const dailyForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(0, 5);
+      const dailyForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(0, 3);
       setDailyWeather(dailyForecast);
     } catch (error) {
       console.error("Error fetching forecast", error);
@@ -162,9 +162,9 @@ function App() {
   };
 
   return (
-    <body className="min-h-screen bg-[url('/sunset.jpg')] py-12 px-4 sm:px-6 lg:px-8">
-      <div class="bg-hero bg-no-repeat bg-cover bg-center bg-fixed">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-8">Weather Tracker</h1>
+    <body className="min-h-screen bg-[url('/clouds.jpg')] py-12 px-4 sm:px-6 lg:px-8">
+      <div class="flex-1 bg-hero bg-cover bg-center bg-no-repeat">
+      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-8 text-white">Weather Tracker</h1>
       <div className="flex items-center justify-center space-x-2 mb-6">
         <input
           type="text"
@@ -189,7 +189,7 @@ function App() {
 
       {currentWeather && (
         <div className="space-y-4">
-          <div className="flex flex-col items-center justify-center text-justify space-x-2 mb-6 border border-gray-200 p-4 rounded-md">
+          <div className="flex flex-col items-center justify-center text-justify space-x-2 mb-6 border border-white p-4 rounded-md bg-sky-100">
           <p><strong>Location:</strong> {currentWeather.name}</p>
           <p><strong>Temperature:</strong> {currentWeather.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
           <p><strong>Conditions:</strong> {currentWeather.weather[0].description}</p>
@@ -198,10 +198,10 @@ function App() {
           <p><strong>Sunrise:</strong> {new Date(currentWeather.sys.sunrise * 1000).toLocaleTimeString()}</p>
           <p><strong>Sunset:</strong> {new Date(currentWeather.sys.sunset * 1000).toLocaleTimeString()}</p>
           </div>
-          <h2 className="text-xl font-semibold text-center">Today's Hourly Forecast</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <h2 className="text-2xl font-semibold text-center text-white">Today's Hourly Forecast</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {todayForecast.map((item, index) => (
-              <div key={index} className="border border-gray-200 p-4 rounded-md">
+              <div key={index} className="border border-gray-200 p-4 rounded-md bg-sky-100">
                 <p><strong>Time:</strong> {new Date(item.dt * 1000).toLocaleTimeString()}</p>
                 <p><strong>Temp:</strong> {item.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
                 <p><strong>Weather:</strong> {item.weather[0].description}</p>
@@ -209,10 +209,10 @@ function App() {
               </div>
             ))}
           </div>
-          <h2 className="text-xl font-semibold text-center">5-Day Weather Forecast</h2>
+          <h2 className="text-2xl font-semibold text-center text-white">3-Day Weather Forecast</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {dailyWeather.map((forecast, index) => (
-              <div key={index} className="border border-gray-200 p-4 rounded-md">
+              <div key={index} className="border border-gray-200 p-4 rounded-md bg-sky-100">
                 <p><strong>Date:</strong> {new Date(forecast.dt * 1000).toLocaleDateString()}</p>
                 <p><strong>Temp:</strong> {forecast.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
                 <p><strong>Weather:</strong> {forecast.weather[0].description}</p>
