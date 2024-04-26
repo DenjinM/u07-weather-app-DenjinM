@@ -104,10 +104,11 @@ function App() {
       const now = new Date();
       const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
-      const hourlyForecast = data.list.filter(item => {
+      let hourlyForecast = data.list.filter(item => {
         const forecastTime = new Date(item.dt * 1000);
         return forecastTime >= now && forecastTime < endOfToday;
       }).slice(0, 8);
+      // hourlyForecast= hourlyForecast.concat(hourlyForecast);
       setTodayForecast(hourlyForecast);
 
       const dailyForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(0, 3);
@@ -188,8 +189,8 @@ function App() {
 </button>
 
       {currentWeather && (
-        <div className="space-y-4">
-          <div className="flex flex-col items-center justify-center text-justify space-x-2 mb-6 border border-white p-4 rounded-md bg-sky-100">
+        <div className="flex flex-col space-y-4 items-center">
+          <div className="flex flex-col max-w-96 items-center justify-center text-justify space-x-2 mb-6 border border-white p-4 rounded-md bg-sky-100">
           <p><strong>Location:</strong> {currentWeather.name}</p>
           <p><strong>Temperature:</strong> {currentWeather.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
           <p><strong>Conditions:</strong> {currentWeather.weather[0].description}</p>
@@ -199,7 +200,8 @@ function App() {
           <p><strong>Sunset:</strong> {new Date(currentWeather.sys.sunset * 1000).toLocaleTimeString()}</p>
           </div>
           <h2 className="text-2xl font-semibold text-center text-white">Today's Hourly Forecast</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* grid grid-cols-2 sm:grid-cols-4 gap-4 */}
             {todayForecast.map((item, index) => (
               <div key={index} className="border border-gray-200 p-4 rounded-md bg-sky-100">
                 <p><strong>Time:</strong> {new Date(item.dt * 1000).toLocaleTimeString()}</p>
