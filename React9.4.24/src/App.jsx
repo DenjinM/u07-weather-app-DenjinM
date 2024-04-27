@@ -104,13 +104,14 @@ function App() {
       const now = new Date();
       const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
-      const hourlyForecast = data.list.filter(item => {
+      let hourlyForecast = data.list.filter(item => {
         const forecastTime = new Date(item.dt * 1000);
         return forecastTime >= now && forecastTime < endOfToday;
       }).slice(0, 8);
+      // hourlyForecast= hourlyForecast.concat(hourlyForecast);
       setTodayForecast(hourlyForecast);
 
-      const dailyForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(0, 5);
+      const dailyForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(0, 3);
       setDailyWeather(dailyForecast);
     } catch (error) {
       console.error("Error fetching forecast", error);
@@ -162,20 +163,34 @@ function App() {
   };
 
   return (
-    <div className="weather-app">
-      <h1>Weather Tracker</h1>
-      <div className="search-bar">
+    <body className="min-h-screen bg-[url('/clouds.jpg')] py-12 px-4 sm:px-6 lg:px-8">
+      <div class="flex-1 bg-hero bg-cover bg-center bg-no-repeat">
+      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-8 text-white">Weather Tracker</h1>
+      <div className="flex items-center justify-center space-x-2 mb-6">
         <input
           type="text"
           value={locationName}
           onChange={(e) => setLocationName(e.target.value)}
           placeholder="Search by city"
+          className="py-2 px-4 border border-gray-300 rounded-md w-64 sm:w-96 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button onClick={handleLocationSearch}>Search Weather</button>
+        <button
+          onClick={handleLocationSearch}
+          className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Search Weather
+        </button>
       </div>
-      <button onClick={switchTemperatureUnit}>Switch Units</button>
+      <button
+  onClick={switchTemperatureUnit}
+  className="py-2 px-4 bg-gray-800 text-white rounded-md hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 mb-6 block mx-auto"
+>
+  Switch Units
+</button>
+
       {currentWeather && (
-        <div className="current-weather">
+        <div className="flex flex-col space-y-4 items-center">
+          <div className="flex flex-col max-w-96 items-center justify-center text-justify space-x-2 mb-6 border border-white p-4 rounded-md bg-sky-100">
           <p><strong>Location:</strong> {currentWeather.name}</p>
           <p><strong>Temperature:</strong> {currentWeather.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
           <p><strong>Conditions:</strong> {currentWeather.weather[0].description}</p>
@@ -183,10 +198,12 @@ function App() {
           <p><strong>Humidity:</strong> {currentWeather.main.humidity}%</p>
           <p><strong>Sunrise:</strong> {new Date(currentWeather.sys.sunrise * 1000).toLocaleTimeString()}</p>
           <p><strong>Sunset:</strong> {new Date(currentWeather.sys.sunset * 1000).toLocaleTimeString()}</p>
-          <h2>Today's Hourly Forecast</h2>
-          <div className="forecast">
+          </div>
+          <h2 className="text-2xl font-semibold text-center text-white">Today's Hourly Forecast</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* grid grid-cols-2 sm:grid-cols-4 gap-4 */}
             {todayForecast.map((item, index) => (
-              <div key={index} className="forecast-entry">
+              <div key={index} className="border border-gray-200 p-4 rounded-md bg-sky-100">
                 <p><strong>Time:</strong> {new Date(item.dt * 1000).toLocaleTimeString()}</p>
                 <p><strong>Temp:</strong> {item.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
                 <p><strong>Weather:</strong> {item.weather[0].description}</p>
@@ -194,10 +211,10 @@ function App() {
               </div>
             ))}
           </div>
-          <h2>5-Day Weather Forecast</h2>
-          <div className="forecast-list">
+          <h2 className="text-2xl font-semibold text-center text-white">3-Day Weather Forecast</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {dailyWeather.map((forecast, index) => (
-              <div key={index} className="forecast-entry">
+              <div key={index} className="border border-gray-200 p-4 rounded-md bg-sky-100">
                 <p><strong>Date:</strong> {new Date(forecast.dt * 1000).toLocaleDateString()}</p>
                 <p><strong>Temp:</strong> {forecast.main.temp} {temperatureUnit === 'metric' ? '°C' : '°F'}</p>
                 <p><strong>Weather:</strong> {forecast.weather[0].description}</p>
@@ -207,8 +224,11 @@ function App() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </body>
   );
+  
+  
 }
 
 export default App; 
