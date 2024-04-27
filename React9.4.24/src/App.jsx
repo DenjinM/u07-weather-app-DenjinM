@@ -167,7 +167,7 @@ function App() {
       <div class="flex-1 bg-hero bg-cover bg-center bg-no-repeat">
       <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-8 text-white">Weather Tracker</h1>
       <div className="flex items-center justify-center space-x-2 mb-6">
-        <input
+        <input 
           type="text"
           value={locationName}
           onChange={(e) => setLocationName(e.target.value)}
